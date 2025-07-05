@@ -1,3 +1,4 @@
+// Navbar menu
 document.addEventListener('DOMContentLoaded', () => {
 
   // Get all "navbar-burger" elements
@@ -20,6 +21,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
 });
 
+// Modal
+document.addEventListener('DOMContentLoaded', () => {
+  // Functions to open and close a modal
+  function openModal($el) {
+    $el.classList.add('is-active');
+  }
+
+  function closeModal($el) {
+    $el.classList.remove('is-active');
+  }
+
+  function closeAllModals() {
+    (document.querySelectorAll('.modal') || []).forEach(($modal) => {
+      closeModal($modal);
+    });
+  }
+
+  // Add a click event on buttons to open a specific modal
+  (document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+    const modal = $trigger.dataset.target;
+    const $target = document.getElementById(modal);
+
+    $trigger.addEventListener('click', () => {
+      openModal($target);
+    });
+  });
+
+  // Add a click event on various child elements to close the parent modal
+  (document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+    const $target = $close.closest('.modal');
+
+    $close.addEventListener('click', () => {
+      closeModal($target);
+    });
+  });
+
+  // Add a keyboard event to close all modals
+  document.addEventListener('keydown', (event) => {
+    if(event.key === "Escape") {
+      closeAllModals();
+    }
+  });
+});
+
 // HTMX
-// we want handle it ourself
+// We want handle the css of the `htmx-indicator` ourself.
 htmx.config.includeIndicatorStyles = false;
+
+// Interaction
+function viewImage(img_id) {
+  $img = document.getElementById(img_id);
+  $modal = document.getElementById("modal-js");
+  $modalContent = document.getElementById("modal-js-content");
+
+  $modalContent.innerHTML = $img.outerHTML;
+  $modal.classList.add("is-active");
+}

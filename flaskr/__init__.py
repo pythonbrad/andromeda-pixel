@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import random
 
 
 app = Flask(__name__)
@@ -32,6 +33,7 @@ def htmx_gallery():
             "url": "https://bulma.io/assets/images/placeholders/256x256.png",
             "keywords": "blank galaxy",
             "author": "anonymous",
+            "uid": random.random(),
         }
     ] * 4
 

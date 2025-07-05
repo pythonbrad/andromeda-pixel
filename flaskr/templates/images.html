@@ -1,10 +1,10 @@
 <div class="columns is-desktop">
     {% for image in images %}
-        <div class="column">
+        <div class="column" onclick="viewImage({{ image.uid }})">
             <div class="card">
                 <div class="card-image">
-                    <figure class="image is-4by3">
-                        <img src="{{ image.url }}" alt="{{ image.descripion }}" />
+                    <figure class="image is-4by3" id="{{ image.uid }}">
+                        <img src="{{ image.url }}" alt="Updated by{{ image.author }}" />
                     </figure>
                 </div>
                 <div class="card-footer">
