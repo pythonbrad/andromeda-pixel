@@ -1,0 +1,18 @@
+[project]
+name = "my-andromeda-galaxy-discovery"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "flask>=3.1.1",
+]
+
+[dependency-groups]
+dev = [
+    "djlint>=1.36.4",
+    "ruff>=0.12.2",
+]
+
+[tool.djlint]
+ignore = "H006"
