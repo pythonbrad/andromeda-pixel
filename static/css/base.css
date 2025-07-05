@@ -1,0 +1,7 @@
+.htmx-indicator:not(.htmx-request) {
+  display: none;
+}
+
+.htmx-indicator.htmx-request {
+  display: block;
+}

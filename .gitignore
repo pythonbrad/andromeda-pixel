@@ -1,0 +1,3 @@
+*.pyc
+*.sw[nop]
+__pycache__
