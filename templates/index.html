@@ -1,67 +1,87 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Andromeda Pixel</title>
-    <meta name="description" content="A website to share pictures of the Adromeda galaxy.">
-    <meta name="keywords" content="adromeda, galaxy">
-    <meta name="author" content="Brady Fomegne">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="{{ url_for('static', filename='icons/space.png') }}">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulmaswatch/0.8.1/solar/bulmaswatch.min.css" integrity="sha512-X0mieKvmbMvynTQnO6+xKgXotkpOwn0P1KracVaHBuJWz9tfPgAvAICs2V4jUqclYpy774TrWM9HDi6emyrAjQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.css">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/base.css') }}">
-  </head>
-  <body>
-    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
-      <div class="navbar-brand">
-        <a class="navbar-item" href="/">
-          <img src="{{ url_for('static', filename='icons/space.png') }}" />&nbsp;
-          <b>Andromeda Galaxy Discovery</b>
-        </a>
-        <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbar-menu-bar">
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-          <span aria-hidden="true"></span>
-        </a>
-      </div>
-    </nav>
-    <section class="section has-text-centered">
-      <div class="content">
-      <h1 class="has-text-white">Explore the Andromeda Galaxy!</h1>
-      <p>Go through millions of photos of the Andromeda Galaxy, and don't forget to share your own photos with the world.</p> 
-      </div>
-      <div class="container mt-5">
-        <div class="field has-addons has-addons-centered">
-          <p class="control is-expanded has-icons-left">
-            <span class="icon is-left">
-              <i class="fas fa-rocket"></i>
-            </span>
-            <input class="input" type="text" placeholder="Enter any keywords that pass in your mind." name="keywords" hx-get="{{ url_for('htmx_search') }}" hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load" hx-target="#search_results" hx-indicator=".htmx-indicator">
-          </p>
-          <p class="control">
-          <a class="button is-success"><i class="fas fa-upload"></i>&nbsp;</a>
-          </p>
-        </div>
-      </div>
-      <hr/>
-    </section>
-    <section class="section">
-      <div class="htmx-indicator">
-        <div class="columns">
-          <div class="column"></div>
-          <div class="column is-2">
-              <img src="{{ url_for('static', filename='icons/loading.png') }}"/>
-            <progress class="progress" max="100"></progress>
-          </div>
-          <div class="column"></div>
-        </div>
-      </div>
-      <div id="search_results"></div>
-    </section>
-    <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
-    <script src="{{ url_for('static', filename='js/base.js') }}"></script>
-  </body>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Andromeda Pixel</title>
+        <meta name="description"
+              content="A website to share pictures of the Adromeda galaxy.">
+        <meta name="keywords" content="adromeda, galaxy">
+        <meta name="author" content="Brady Fomegne">
+        <link rel="icon"
+              type="image/png"
+              href="{{ url_for('static', filename='icons/space.png') }}">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/bulmaswatch/0.8.1/solar/bulmaswatch.min.css"
+              integrity="sha512-X0mieKvmbMvynTQnO6+xKgXotkpOwn0P1KracVaHBuJWz9tfPgAvAICs2V4jUqclYpy774TrWM9HDi6emyrAjQ=="
+              crossorigin="anonymous"
+              referrerpolicy="no-referrer" />
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.css">
+        <link rel="stylesheet"
+              href="{{ url_for('static', filename='css/base.css') }}">
+    </head>
+    <body>
+        <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+            <div class="navbar-brand">
+                <a class="navbar-item" href="/">
+                    <img alt="space logo" src="{{ url_for('static', filename='icons/space.png') }}" />
+                    &nbsp;
+                    <b>Andromeda Galaxy Discovery</b>
+                </a>
+                <a role="button"
+                   class="navbar-burger"
+                   aria-label="menu"
+                   aria-expanded="false"
+                   data-target="navbar-menu-bar">
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                    <span aria-hidden="true"></span>
+                </a>
+            </div>
+        </nav>
+        <section class="section has-text-centered">
+            <div class="content">
+                <h1 class="has-text-white">Explore the Andromeda Galaxy!</h1>
+                <p>Go through millions of photos of the Andromeda Galaxy, and don't forget to share your own photos with the world.</p>
+            </div>
+            <div class="container mt-5">
+                <div class="field has-addons has-addons-centered">
+                    <p class="control is-expanded has-icons-left">
+                        <span class="icon is-left">
+                            <i class="fas fa-rocket"></i>
+                        </span>
+                        <input class="input"
+                               type="text"
+                               placeholder="Enter any keywords that pass in your mind."
+                               name="keywords"
+                               hx-get="{{ url_for("htmx_search") }}"
+                               hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
+                               hx-target="#search_results"
+                               hx-indicator=".htmx-indicator">
+                    </p>
+                    <p class="control">
+                        <a class="button is-success"><i class="fas fa-upload"></i>&nbsp;</a>
+                    </p>
+                </div>
+            </div>
+            <hr />
+        </section>
+        <section class="section">
+            <div class="htmx-indicator">
+                <div class="columns">
+                    <div class="column"></div>
+                    <div class="column is-2">
+                        <img alt="space loading icon" src="{{ url_for('static', filename='icons/loading.png') }}" />
+                        <progress class="progress" max="100"></progress>
+                    </div>
+                    <div class="column"></div>
+                </div>
+            </div>
+            <div id="search_results"></div>
+        </section>
+        <script src="https://cdn.jsdelivr.net/npm/htmx.org@2.0.6/dist/htmx.min.js"></script>
+        <script src="{{ url_for('static', filename='js/base.js') }}"></script>
+    </body>
 </html>

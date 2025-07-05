@@ -1,16 +1,16 @@
 <div class="columns is-desktop">
-  {% for image in images %}
-  <div class="column">
-    <div class="card">
-      <div class="card-image">
-        <figure class="image is-4by3">
-          <img src="{{ image.url }}" alt="{{ image.descripion }}"/>
-        </figure>
-      </div>
-      <div class="card-footer">
-        <a href="#" class="card-footer-item">{{ image.keywords }} by {{ image.author }}</a>
-      </div>
-    </div>
-  </div>
-  {% endfor %}
+    {% for image in images %}
+        <div class="column">
+            <div class="card">
+                <div class="card-image">
+                    <figure class="image is-4by3">
+                        <img src="{{ image.url }}" alt="{{ image.descripion }}" />
+                    </figure>
+                </div>
+                <div class="card-footer">
+                    <a href="#" class="card-footer-item">{{ image.keywords }} by {{ image.author }}</a>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
 </div>
