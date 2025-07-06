@@ -78,3 +78,31 @@ function viewImage(img_id) {
   $modalContent.innerHTML = $img.outerHTML;
   $modal.classList.add("is-active");
 }
+
+// Notification
+document.addEventListener('DOMContentLoaded', () => {
+  (document.querySelectorAll('.notification .delete') || []).forEach(($delete) => {
+    const $notification = $delete.parentNode;
+
+    $delete.addEventListener('click', () => {
+      $notification.parentNode.removeChild($notification);
+    });
+  });
+});
+
+// Interaction
+function viewImage(img_id) {
+  $img = document.getElementById(img_id);
+  $modal = document.getElementById("modal-js");
+  $modalContent = document.getElementById("modal-js-content");
+
+  $modalContent.innerHTML = $img.outerHTML;
+  $modal.classList.add("is-active");
+}
+
+function uploadImage() {
+  setTimeout(function() {
+  $modal = document.getElementById("modal-js");
+  $modal.classList.add("is-active");
+  }, 500);
+}

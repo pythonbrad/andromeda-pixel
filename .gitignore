@@ -1,3 +1,4 @@
 *.pyc
 *.sw[nop]
 __pycache__
+media

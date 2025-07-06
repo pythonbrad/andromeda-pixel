@@ -1,4 +1,4 @@
 <a class="button is-fullwidth"
-   hx-get="{{ url_for("htmx_gallery") }}?keywords={{ keywords }}"
-   hx-trigger="click"
+   hx-get="{{ url_for("htmx_gallery") }}"
+   hx-trigger="click, load"
    hx-swap="beforebegin">See More</a>

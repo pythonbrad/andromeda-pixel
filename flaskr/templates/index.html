@@ -42,6 +42,16 @@
                 </a>
             </div>
         </nav>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="notification is-{{ category }}">
+                        <button class="delete"></button>
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
         <section class="section has-text-centered">
             <div class="content">
                 <h1 class="has-text-white">Explore the Andromeda Galaxy!</h1>
@@ -63,7 +73,10 @@
                                hx-indicator=".htmx-indicator">
                     </p>
                     <p class="control">
-                        <a class="button is-success"><i class="fas fa-upload"></i>&nbsp;</a>
+                        <a class="button is-success" onclick="uploadImage()"><i class="fas fa-upload"
+   hx-trigger="click"
+   hx-get="{{ url_for("htmx_upload_image") }}"
+   hx-target="#modal-js-content"></i>&nbsp;</a>
                     </p>
                 </div>
             </div>
@@ -80,6 +93,7 @@
                     </div>
                     <div class="column"></div>
                 </div>
+                <br />
             </div>
             <div id="search_results"></div>
         </section>
