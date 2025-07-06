@@ -8,8 +8,8 @@ def create_app(test_config=None):
     app = Flask(__name__, instance_relative_config=True)
     app.config.from_mapping(
         SECRET_KEY="dev",
-        MAX_CONTENT_LENGTH=1 * 1000 * 1000,  # 1MB
-        MEDIA_ROOT=pathlib.Path(os.path.dirname(__file__)) / "media",
+        MAX_CONTENT_LENGTH=2_000_000,
+        AWS_S3_BUCKET_NAME="dev",
         ALLOWED_IMAGE_EXTENSIONS={"png", "jpg", "jpeg"},
         DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
     )
@@ -20,9 +20,6 @@ def create_app(test_config=None):
     else:
         # load the test config if passed in
         app.config.from_mapping(test_config)
-
-    # Ensure the media folder is existing.
-    pathlib.Path(app.config["MEDIA_ROOT"]).mkdir(exist_ok=True)
 
     # ensure the instance folder exists
     try:

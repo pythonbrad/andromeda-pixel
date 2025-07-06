@@ -5,13 +5,14 @@ from flask import (
     redirect,
     url_for,
     flash,
-    send_from_directory,
     current_app,
 )
 from werkzeug.utils import secure_filename
 import os
 from flaskr.db import get_db
-
+import boto3
+from boto3.s3.transfer import S3UploadFailedError
+import tempfile
 
 bp = Blueprint("core", __name__, url_prefix="/")
 
@@ -47,11 +48,35 @@ def upload_image():
         flash("Your image seems invalid!", "warning")
     elif file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
-        file.save(os.path.join(current_app.config["MEDIA_ROOT"], filename))
-        url = url_for("core.download_file", name=filename)
 
+        # Temporary save the file.
+        tfile = tempfile.mktemp()
+        file.save(tfile)
+
+        # Upload to AWS S3 bucket.
+        client = boto3.resource("s3")
+        bucket = client.Bucket(current_app.config["AWS_S3_BUCKET_NAME"])
+        bucket_obj = bucket.Object(filename)
+
+        try:
+            bucket_obj.upload_file(tfile)
+        except S3UploadFailedError as err:
+            flash(
+                "We got an issue during the uploading of your image. Please try again!",
+                "danger",
+            )
+            current_app.logger.error(
+                f"Couldn't upload file {filename} to {bucket.name}\n{err}."
+            )
+
+            return redirect(url_for("core.index"))
+
+        # Update the database.
         db = get_db()
-        db.execute("INSERT INTO image (keywords, url) VALUES (?, ?)", (keywords, url))
+        db.execute(
+            "INSERT INTO image (keywords, bucket_name, object_key) VALUES (?, ?, ?)",
+            (keywords, bucket.name, bucket_obj.key),
+        )
         db.commit()
 
         flash("Image uploaded successfully!", "success")
@@ -59,7 +84,12 @@ def upload_image():
     return redirect(url_for("core.index"))
 
 
-# Serve the media files.
-@bp.route("/uploads/<name>")
-def download_file(name):
-    return send_from_directory(current_app.config["MEDIA_ROOT"], name)
+@bp.errorhandler(413)
+def uploaded_file_too_large(e):
+    max_upload_size = round(current_app.config["MAX_CONTENT_LENGTH"] / 1_000_000, 2)
+    flash(
+        f"The image is too large for us to upload it! The maximun is {max_upload_size} MB",
+        "danger",
+    )
+
+    return redirect(url_for("core.index"))

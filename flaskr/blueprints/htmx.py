@@ -1,5 +1,6 @@
 from flask import Blueprint, session, render_template, request
 from flaskr.db import get_db
+import boto3
 
 
 bp = Blueprint("htmx", __name__, url_prefix="/htmx")
@@ -26,6 +27,20 @@ def gallery():
     images = db.execute(
         f"SELECT * FROM image WHERE {conds} AND id > ? LIMIT ?", (*cond_values, skip, 4)
     ).fetchall()
+
+    # Extract data from AWS S3.
+    s3_client = boto3.client("s3")
+    images = [
+        {
+            "url": s3_client.generate_presigned_url(
+                "get_object",
+                Params={"Bucket": image["bucket_name"], "Key": image["object_key"]},
+                ExpiresIn=3600,
+            ),
+            "keywords": image["keywords"],
+        }
+        for image in images
+    ]
 
     # We prepare the next pagination.
     session["skip"] = skip + len(images)
