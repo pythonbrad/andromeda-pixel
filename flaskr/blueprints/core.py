@@ -10,6 +10,7 @@ from flask import (
 )
 from werkzeug.utils import secure_filename
 import os
+from flaskr.db import get_db
 
 
 bp = Blueprint("core", __name__, url_prefix="/")
@@ -38,7 +39,7 @@ def upload_image():
 
         return redirect(url_for("core.index"))
 
-    keywords = request.args.get("keywords", "")
+    keywords = request.form.get("keywords", "")
     file = request.files["image"]
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
@@ -47,9 +48,11 @@ def upload_image():
     elif file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(os.path.join(current_app.config["MEDIA_ROOT"], filename))
+        url = url_for("core.download_file", name=filename)
 
-        with open(current_app.config["MEDIA_ROOT"] / (filename + ".txt"), "w") as f:
-            f.write(keywords)
+        db = get_db()
+        db.execute("INSERT INTO image (keywords, url) VALUES (?, ?)", (keywords, url))
+        db.commit()
 
         flash("Image uploaded successfully!", "success")
 

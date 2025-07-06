@@ -11,6 +11,7 @@ def create_app(test_config=None):
         MAX_CONTENT_LENGTH=1 * 1000 * 1000,  # 1MB
         MEDIA_ROOT=pathlib.Path(os.path.dirname(__file__)) / "media",
         ALLOWED_IMAGE_EXTENSIONS={"png", "jpg", "jpeg"},
+        DATABASE=os.path.join(app.instance_path, "flaskr.sqlite"),
     )
 
     if test_config is None:
@@ -28,6 +29,10 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
+
+    from . import db
+
+    db.init_app(app)
 
     from .blueprints import core, htmx
 
