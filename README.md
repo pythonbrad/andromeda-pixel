@@ -15,26 +15,32 @@ A website to share picture of the Andromeda galaxy with the world.
 
 ```
 pip install .
+flask--app flaskr run init-db
 ```
 
 **uv**
 
 ```
 uv sync
+uv run flask --app flaskr run init-db
 ```
+
+**environment variables**
+
+You should config the `AWS_S3_BUCKET_NAME` environment variable at `instance/config.py`.
 
 ### How to run
 
 **pip**
 
 ```
-flask run 
+flask --app flaskr run --debug
 ```
 
 **uv**
 
 ```
-uv run flask run
+uv run flask--app run flaskr --debug:
 ```
 
 After the server is ready, you can access the webapp at http://127.0.0.1:5000/.
