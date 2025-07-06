@@ -8,7 +8,6 @@ from flask import (
     current_app,
 )
 from werkzeug.utils import secure_filename
-import os
 from flaskr.db import get_db
 import boto3
 from boto3.s3.transfer import S3UploadFailedError
@@ -60,7 +59,7 @@ def upload_image():
             im = Image.open(tfile)
             im_status = True
             im.close()
-        except UnidentifiedImageError as err:
+        except UnidentifiedImageError:
             im_status = False
 
         if not im_status:

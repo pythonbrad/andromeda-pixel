@@ -1,6 +1,5 @@
 from flask import Flask
 import os
-import pathlib
 
 
 def create_app(test_config=None):
