@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
-// Interaction
+// User Interaction
 function viewImage(img_id) {
   $img = document.getElementById(img_id);
   $modal = document.getElementById("modal-js");
@@ -101,8 +101,6 @@ function viewImage(img_id) {
 }
 
 function uploadImage() {
-  setTimeout(function() {
   $modal = document.getElementById("modal-js");
   $modal.classList.add("is-active");
-  }, 500);
 }

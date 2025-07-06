@@ -73,10 +73,11 @@
                                hx-indicator=".htmx-indicator">
                     </p>
                     <p class="control">
-                        <a class="button is-success" onclick="uploadImage()"><i class="fas fa-upload"
-   hx-trigger="click"
-   hx-get="{{ url_for("htmx_upload_image") }}"
-   hx-target="#modal-js-content"></i>&nbsp;</a>
+                        <a class="button is-success"
+                           onclick="uploadImage()"
+                           hx-trigger="click"
+                           hx-get="{{ url_for("htmx_upload_image") }}"
+                           hx-target="#modal-js-content"><i class="fas fa-upload"></i>&nbsp;</a>
                     </p>
                 </div>
             </div>
