@@ -67,7 +67,7 @@
                                type="text"
                                placeholder="Enter any keywords that pass in your mind."
                                name="keywords"
-                               hx-get="{{ url_for("htmx_search") }}"
+                               hx-get="{{ url_for("htmx.search") }}"
                                hx-trigger="input changed delay:500ms, keyup[key=='Enter'], load"
                                hx-target="#search_results"
                                hx-indicator=".htmx-indicator">
@@ -76,7 +76,7 @@
                         <a class="button is-success"
                            onclick="uploadImage()"
                            hx-trigger="click"
-                           hx-get="{{ url_for("htmx_upload_image") }}"
+                           hx-get="{{ url_for("htmx.upload_image") }}"
                            hx-target="#modal-js-content"><i class="fas fa-upload"></i>&nbsp;</a>
                     </p>
                 </div>
