@@ -1,5 +1,7 @@
 # Andromeda Galaxy Discovery
 
+![screenshot](https://github.com/user-attachments/assets/a16b563e-f584-4230-b09c-a14a860fe4ed)
+
 A website to share picture of the Andromeda galaxy with the world.
 
 ### Requirements
