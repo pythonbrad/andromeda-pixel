@@ -13,6 +13,7 @@ from flaskr.db import get_db
 import boto3
 from boto3.s3.transfer import S3UploadFailedError
 import tempfile
+from PIL import Image, UnidentifiedImageError
 
 bp = Blueprint("core", __name__, url_prefix="/")
 
@@ -44,14 +45,28 @@ def upload_image():
     file = request.files["image"]
     # If the user does not select a file, the browser submits an
     # empty file without a filename.
-    if file.filename == "":
-        flash("Your image seems invalid!", "warning")
-    elif file and allowed_file(file.filename):
+    if file.filename == "" or not (file and allowed_file(file.filename)):
+        img_types = ", ".join(current_app.config["ALLOWED_IMAGE_EXTENSIONS"])
+        flash(f"Sorry, but we only allow image types: {img_types}!", "warning")
+    else:
         filename = secure_filename(file.filename)
 
         # Temporary save the file.
         tfile = tempfile.mktemp()
         file.save(tfile)
+
+        # Check if the file is an image.
+        try:
+            im = Image.open(tfile)
+            im_status = True
+            im.close()
+        except UnidentifiedImageError as err:
+            im_status = False
+
+        if not im_status:
+            flash("Your image seems invalid!", "danger")
+
+            return redirect(url_for("core.index"))
 
         # Upload to AWS S3 bucket.
         client = boto3.resource("s3")
