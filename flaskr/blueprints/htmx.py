@@ -32,6 +32,7 @@ def gallery():
     s3_client = boto3.client("s3")
     images = [
         {
+            "id": image["id"],
             "url": s3_client.generate_presigned_url(
                 "get_object",
                 Params={"Bucket": image["bucket_name"], "Key": image["object_key"]},
